@@ -13,22 +13,11 @@ type SignResponse {
   jwt: String
   user: User
 }
-type ForgotPasswordResponse {
-  success: Boolean
-  message: String
-}
-type resetPasswordResponse {
-  success: Boolean
-  message: String
-}
 type Query {
   getUser(id: UUID): User @hasPermission(permission: "getUser")
   getAllUsers: [User] @hasPermission(permission: "getAllUsers")
   signin(email: String, password: String, smsCode: String): SignResponse
-  resetPasswordPasscodeCheck(
-    email: String
-    token: String
-  ): resetPasswordResponse
+  resetPasswordPasscodeCheck(email: String, token: String): SuccessMessage
   me: User
 }
 
@@ -45,10 +34,6 @@ type Mutation {
     phoneNumber: String
     smsCode: String
   ): SignResponse
-  forgotPassword(email: String): ForgotPasswordResponse
-  resetPassword(
-    email: String
-    token: String
-    password: String
-  ): resetPasswordResponse
+  forgotPassword(email: String): SuccessMessage
+  resetPassword(email: String, token: String, password: String): SuccessMessage
 }

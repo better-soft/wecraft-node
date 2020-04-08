@@ -1,3 +1,7 @@
 type DeleteType {
   success: Boolean
 }
+type SuccessMessage {
+  success: Boolean
+  message: String
+}
