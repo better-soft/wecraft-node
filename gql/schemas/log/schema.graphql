@@ -1,0 +1,12 @@
+scalar JSON
+
+type Log {
+  id: UUID
+  user: User
+  gqlData: JSON
+  requestHeaders: JSON
+}
+type Query {
+  getLog(id: UUID): Log @hasPermission(permission: "getLog")
+  getUserLogs(userId: UUID): [Log] @hasPermission(permission: "getUserLogs")
+}

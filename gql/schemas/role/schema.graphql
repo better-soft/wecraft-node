@@ -1,0 +1,31 @@
+type Role {
+  id: UUID
+  name: String
+  users: [User]
+  permissions: [Permission]
+}
+
+type Query {
+  # Gets Role With Specified ID
+  getRole(id: UUID): Role @isAuthenticated @hasPermission(permission: "getRole")
+}
+
+type Mutation {
+  # Creates Role With Specified Name
+  createRole(name: String): Role @hasPermission(permission: "createRole")
+
+  # Updates Role's Name With Specified ID
+  updateRole(id: UUID, name: String): Role
+    @hasPermission(permission: "updateRole")
+
+  # Assings Role To an User
+  assignUserRole(roleId: UUID, userId: UUID): Role
+    @hasPermission(permission: "assignUserRole")
+
+  # Updates User Role
+  updateUserRole(roleId: UUID, userId: UUID): Role
+    @hasPermission(permission: "updateUserRole")
+
+  #Delete Role
+  deleteRole(id: UUID): DeleteType @hasPermission(permission: "deleteRole")
+}

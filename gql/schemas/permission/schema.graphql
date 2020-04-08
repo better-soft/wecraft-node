@@ -1,0 +1,24 @@
+type Permission {
+  id: UUID
+  name: String
+  roles: [Role]
+}
+
+type Query {
+  # Gets Permission With Specified ID
+  getPermission(id: UUID): Permission
+    @hasPermission(permission: "getPermission")
+}
+
+type Mutation {
+  # Creates Permission With Specified Name
+  createPermission(name: String): Permission
+    @hasPermission(permission: "createPermission")
+  # Adds Permission To A Role
+  addPermissionToRole(permissionId: UUID, roleId: UUID): Permission
+    @hasPermission(permission: "addPermissionToRole")
+  removePermissionFromRole(permissionId: UUID, roleId: UUID): Permission
+    @hasPermission(permission: "removePermissionFromRole")
+  deletePermission(id: UUID): DeleteType
+    @hasPermission(permission: "deletePermission")
+}

@@ -1,0 +1,9 @@
+require("babel-core/register");
+require("babel-polyfill");
+const path = require('path');
+module.exports = {
+  'config': path.resolve('setup', 'config', 'sequelizeConf.js'),
+  'models-path': path.resolve('db', 'models'),
+  'migrations-path': path.resolve('db', 'migrations'),
+  'seeders-path': path.resolve('db', 'seeders')
+}

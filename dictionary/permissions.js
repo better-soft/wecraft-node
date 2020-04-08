@@ -1,0 +1,18 @@
+module.exports = [
+  'getUser',
+  'getAllUsers',
+  'getLog',
+  'getPermission',
+  'createPermission',
+  'addPermissionToRole',
+  'removePermissionFromRole',
+  'deletePermission',
+  'getRole',
+  'createRole',
+  'updateRole',
+  'assignUserRole',
+  'updateUserRole',
+  'deleteRole',
+  'getUser',
+  'updateUser',
+]

@@ -1,0 +1,46 @@
+scalar UUID
+
+type User {
+  id: UUID
+  email: String
+  phoneNumber: String
+  smsAuthEnabled: Boolean
+}
+
+type SignResponse {
+  success: Boolean
+  message: String
+  jwt: String
+  user: User
+}
+type ForgotPasswordResponse {
+  success: Boolean
+  message: String
+  token: String
+}
+type resetPasswordResponse {
+  success: Boolean
+  message: String
+}
+type Query {
+  getUser(id: UUID): User @hasPermission(permission: "getUser")
+  getAllUsers: [User] @hasPermission(permission: "getAllUsers")
+  signin(email: String, password: String, smsCode: String): SignResponse
+  me: User
+}
+
+type Mutation {
+  updateUser(
+    id: UUID
+    email: String
+    phoneNumber: String
+    smsAuthEnabled: Boolean
+  ): User @hasPermission(permission: "updateUser")
+  signup(email: String, password: String, phoneNumber: String): SignResponse
+  forgotPassword(email: String): ForgotPasswordResponse
+  resetPassword(
+    email: String
+    token: String
+    password: String
+  ): resetPasswordResponse
+}
