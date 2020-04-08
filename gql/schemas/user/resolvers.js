@@ -257,6 +257,7 @@ const resetPassword = async (root, { email, token, password }) => {
       })
       return { success: true, message: 'Password Changed' }
     }
+    return check
   } catch (error) {
     return { success: false, message: 'Internal Server Error' }
   }
