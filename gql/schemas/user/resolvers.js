@@ -12,6 +12,7 @@ import {
   TWILIO_AUTH_TOKEN,
   TWILIO_SERVICE_VERIFICATION_ID,
 } from '../../../setup/config'
+import sendForgotPasswordPasscodeEmail from '../../../helpers/mailer'
 
 const twilioClient = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
@@ -156,19 +157,22 @@ const forgotPassword = async (root, { email }) => {
       resetPasswordToken: passcode,
       resetPasswordExpires: Date.now() + RESET_PASSWORD_EXPIRATION_HOURS,
     })
-    return { success: true, token: passcode }
+    await sendForgotPasswordPasscodeEmail(email, passcode)
+    return { success: true, message: 'Email Sent' }
   } catch (err) {
     return { success: false, message: 'Internal Server Error' }
   }
 }
 
-const resetPassword = async (root, { email, token, password }) => {
+const resetPasswordPasscodeCheck = async (root, { email, token, user }) => {
   try {
-    const foundUser = await db.user.findOne({
-      where: {
-        email,
-      },
-    })
+    const foundUser =
+      user ||
+      (await db.user.findOne({
+        where: {
+          email,
+        },
+      }))
     if (!foundUser) {
       return {
         success: false,
@@ -188,18 +192,43 @@ const resetPassword = async (root, { email, token, password }) => {
         message: 'Verification code has expired',
       }
     }
-    if (isValidPassword(foundUser.passwordHash, password)) {
-      return {
-        success: false,
-        message: 'Do not type your old password',
-      }
+    return {
+      success: true,
+      message: 'Verification Code Correct',
     }
-    await foundUser.update({
-      resetPasswordToken: null,
-      resetPasswordExpires: null,
-      passwordHash: generateHash(password),
+  } catch (err) {
+    return { success: false, message: 'Internal Server Error' }
+  }
+}
+
+const resetPassword = async (root, { email, token, password }) => {
+  try {
+    const foundUser = await db.user.findOne({
+      where: {
+        email,
+      },
     })
-    return { success: true, message: 'Password Changed' }
+
+    const check = await resetPasswordPasscodeCheck(root, {
+      email,
+      token,
+      foundUser,
+    })
+
+    if (check.success) {
+      if (isValidPassword(foundUser.passwordHash, password)) {
+        return {
+          success: false,
+          message: 'Do not type your old password',
+        }
+      }
+      await foundUser.update({
+        resetPasswordToken: null,
+        resetPasswordExpires: null,
+        passwordHash: generateHash(password),
+      })
+      return { success: true, message: 'Password Changed' }
+    }
   } catch (error) {
     return { success: false, message: 'Internal Server Error' }
   }
@@ -212,6 +241,7 @@ exports.resolver = {
     getAllUsers,
     signin,
     me,
+    resetPasswordPasscodeCheck,
   },
   Mutation: {
     updateUser,

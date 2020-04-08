@@ -16,7 +16,6 @@ type SignResponse {
 type ForgotPasswordResponse {
   success: Boolean
   message: String
-  token: String
 }
 type resetPasswordResponse {
   success: Boolean
@@ -26,6 +25,10 @@ type Query {
   getUser(id: UUID): User @hasPermission(permission: "getUser")
   getAllUsers: [User] @hasPermission(permission: "getAllUsers")
   signin(email: String, password: String, smsCode: String): SignResponse
+  resetPasswordPasscodeCheck(
+    email: String
+    token: String
+  ): resetPasswordResponse
   me: User
 }
 

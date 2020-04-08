@@ -8,6 +8,7 @@ const GRAPHQL_EXCEPTIONS = [
   'signup',
   'resetPassword',
   'forgotPassword',
+  'resetPasswordPasscodeCheck',
 ]
 
 const getFirstQueryName = query =>
