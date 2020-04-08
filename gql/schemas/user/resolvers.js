@@ -105,6 +105,9 @@ const signin = async (root, { email, password, smsCode }) => {
       message: 'Sms Code Incorrect',
     }
   } catch (error) {
+    if (error.code === 60200) {
+      return { success: false, message: 'Invalid Phone Number' }
+    }
     return {
       success: false,
       message: error.message,
@@ -118,7 +121,6 @@ const signup = async (root, { email, password, phoneNumber, smsCode }) => {
     if (foundUser) {
       return { success: false, message: 'Account Already Exists' }
     }
-    console.log(smsCode)
     if (SMS_AUTH_ENABLED) {
       if (!smsCode) {
         await twilioClient.verify
@@ -162,6 +164,9 @@ const signup = async (root, { email, password, phoneNumber, smsCode }) => {
       user: newUser,
     }
   } catch (error) {
+    if (error.code === 60200) {
+      return { success: false, message: 'Invalid Phone Number' }
+    }
     return {
       success: false,
       message: error.message,
