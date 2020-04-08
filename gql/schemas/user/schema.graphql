@@ -39,7 +39,12 @@ type Mutation {
     phoneNumber: String
     smsAuthEnabled: Boolean
   ): User @hasPermission(permission: "updateUser")
-  signup(email: String, password: String, phoneNumber: String): SignResponse
+  signup(
+    email: String
+    password: String
+    phoneNumber: String
+    smsCode: String
+  ): SignResponse
   forgotPassword(email: String): ForgotPasswordResponse
   resetPassword(
     email: String

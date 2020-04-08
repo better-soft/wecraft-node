@@ -11,6 +11,7 @@ import {
   TWILIO_ACCOUNT_SID,
   TWILIO_AUTH_TOKEN,
   TWILIO_SERVICE_VERIFICATION_ID,
+  SMS_AUTH_ENABLED,
 } from '../../../setup/config'
 import sendForgotPasswordPasscodeEmail from '../../../helpers/mailer'
 
@@ -111,11 +112,38 @@ const signin = async (root, { email, password, smsCode }) => {
   }
 }
 
-const signup = async (root, { email, password, phoneNumber }) => {
+const signup = async (root, { email, password, phoneNumber, smsCode }) => {
   try {
     const foundUser = await db.user.findOne({ where: { email } })
     if (foundUser) {
       return { success: false, message: 'Account Already Exists' }
+    }
+    console.log(smsCode)
+    if (SMS_AUTH_ENABLED) {
+      if (!smsCode) {
+        await twilioClient.verify
+          .services(TWILIO_SERVICE_VERIFICATION_ID)
+          .verifications.create({
+            to: phoneNumber,
+            channel: 'sms',
+          })
+        return {
+          success: true,
+          message: 'Code Sent To Phone Number',
+        }
+      }
+      const verify = await twilioClient.verify
+        .services(TWILIO_SERVICE_VERIFICATION_ID)
+        .verificationChecks.create({
+          to: phoneNumber,
+          code: smsCode,
+        })
+      if (!verify.status === 'approved') {
+        return {
+          success: false,
+          message: 'Sms Code Incorrect',
+        }
+      }
     }
     const newUser = await db.user
       .build({

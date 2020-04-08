@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const uuid = require('uuid/v4')
+const { SMS_AUTH_ENABLED } = require('../../setup/config')
 
 module.exports = sequelize => {
   const User = sequelize.define('user', {
@@ -23,7 +24,7 @@ module.exports = sequelize => {
     smsAuthEnabled: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
-      defaultValue: true,
+      defaultValue: SMS_AUTH_ENABLED,
     },
     passwordHash: {
       type: Sequelize.STRING,

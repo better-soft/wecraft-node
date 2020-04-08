@@ -12,6 +12,7 @@ const TWILIO_AUTH_TOKEN = ''
 const TWILIO_SERVICE_VERIFICATION_ID = ''
 const MAILGUN_API_KEY = ''
 const MAILGUN_DOMAIN = ''
+const SMS_AUTH_ENABLED = true
 
 const BUGSNAG_OPTIONS = {
   apiKey: 'API_KEY_HERE',
@@ -39,6 +40,7 @@ const config = {
     TWILIO_SERVICE_VERIFICATION_ID,
     MAILGUN_API_KEY,
     MAILGUN_DOMAIN,
+    SMS_AUTH_ENABLED,
     admin: {
       email: 'ADMIN_EMAIL',
       password: 'ADMIN_PASSWORD',
@@ -68,6 +70,7 @@ const config = {
     TWILIO_SERVICE_VERIFICATION_ID,
     MAILGUN_API_KEY,
     MAILGUN_DOMAIN,
+    SMS_AUTH_ENABLED,
     serverPort: 8000,
     admin: {
       email: process.env.ADMIN_MAIL,
