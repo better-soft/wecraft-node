@@ -17,7 +17,7 @@ Create `setup/config/local.js` file with sample data from main config file. This
 
 ## Migrations & Seeds
 
-Base migration Name: `20191209132650-baseMigration`
+Base migration Name: `20200407055154-baseMigration`
 
 Please don't forget to RUN and MAKE migrations for any change in the models.
 
