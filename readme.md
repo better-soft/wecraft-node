@@ -21,7 +21,11 @@ Base migration Name: `20191209132650-baseMigration`
 
 Please don't forget to RUN and MAKE migrations for any change in the models.
 
-Migrations run on every `yarn/npm start` but for manual running use `yarn/npm migrate'. Seeds run on every`yarn/npm start`but for manual running use`yarn/npm seed`. For running server without migrating and seeding use`yarn/npm start:only`
+Migrations run on every `yarn/npm start` but for manual running use `yarn/npm migrate`.
+
+Seeds run on every `yarn/npm start` but for manual running use `yarn/npm seed`.
+
+For running server without migrating and seeding use `yarn/npm start:only`
 
 To make empty migrations:
 
