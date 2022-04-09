@@ -32,7 +32,7 @@
     "graphql-upload": "^8.0.4",
     "jsonwebtoken": "^8.3.0",
     "mailgun-js": "^0.22.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "morgan": "^1.8.2",
     "nodemon": "^1.18.3",
     "pg": "^7.12.1",
